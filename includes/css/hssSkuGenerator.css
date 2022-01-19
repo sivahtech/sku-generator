@@ -1,0 +1,21 @@
+
+/*
+* Hide vuetify code before it is compiled
+*/
+[v-cloak] {
+  display:none;
+}
+
+/*
+ * Code to remove the box around input on a select dropdown.
+ */
+div.v-select__selections > input {
+  background-color: white;
+  border-style: none;
+}
+
+div.v-select__selections > input:focus {
+  -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
