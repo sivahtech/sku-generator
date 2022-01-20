@@ -167,7 +167,7 @@ class hssSkuGeneratorTools extends hssCommonTools {
     wp_register_style('hss-roboto-font', 'https://fonts.googleapis.com/css?family=Libre Barcode 39');
     wp_register_style('hss-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900');
     wp_register_style('hss-material-designs', 'https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css');
-    wp_register_style('hss-vuetify-style', 'https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css');
+    wp_register_style('hss-vuetify-style', HSS_SKU_GEN_PLUGIN_URL.'includes/css/vuetify.min.css');
     wp_enqueue_style('hss-roboto-font');
     wp_enqueue_style('hss-material-designs');
     wp_enqueue_style('hss-vuetify-style');

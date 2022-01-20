@@ -19,15 +19,15 @@ if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 //check for multisite and regular
 if ( ! is_plugin_active_for_network( 'woocommerce/woocommerce.php' ) && ! is_plugin_active( 'woocommerce/woocommerce.php' )) {
   // error_log('Woocommerce does not appear to be enabled');
-  function require_woocommerce_plugin(){?>
+  function st_require_woocommerce_plugin(){?>
       <div class="notice notice-error" >
           <p> Please Enable Woocommerce Plugin before using TODO Plugin Name</p>
       </div><?php
    @trigger_error(__('Please Enable Woocommerce Plugin before using TODO Plugin Name.', 'hss_sku_gen'), E_USER_ERROR);
   }
 
-  add_action('network_admin_notices','require_woocommerce_plugin');
-  register_activation_hook(__FILE__, 'require_woocommerce_plugin');
+  add_action('network_admin_notices','st_require_woocommerce_plugin');
+  register_activation_hook(__FILE__, 'st_require_woocommerce_plugin');
 } else {
   $wcActive = true;
 }
@@ -170,15 +170,15 @@ if (is_admin() && $wcActive) {
 
 
   
-	add_action( 'admin_init', 'my_admin_button' );
-	function my_admin_button() {
+	add_action( 'admin_init', 'st_my_admin_button' );
+	function st_my_admin_button() {
 		add_meta_box( 'product_meta_box',
 			'Product Details',
-			'display_product_meta_box',
+			'st_display_product_meta_box',
 			'product', 'normal', 'high'
 		);
 	}
-	function display_product_meta_box( $movie_review ) {
+	function st_display_product_meta_box( $movie_review ) {
 		
 		?>
 		<table>
@@ -191,9 +191,9 @@ if (is_admin() && $wcActive) {
 		</table>
 		<?php
 	}
-	add_action( 'admin_footer', 'my_action_javascript' ); 
+	add_action( 'admin_footer', 'st_my_action_javascript' ); 
 
-	function my_action_javascript() { ?>
+	function st_my_action_javascript() { ?>
 		<script type="text/javascript" >
 		
 			function myfunctiongeneratesku(){

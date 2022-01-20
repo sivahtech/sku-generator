@@ -28,7 +28,7 @@ if (!class_exists('hssCommonTools', false)) {
         
         function hss_echo_message($message, $class = 'error'){
             ?> 
-            <div class="<?php echo esc_html($class); ?>"><p><?php echo $message; ?></p></div>
+            <div class="<?php echo esc_html($class); ?>"><p><?php echo esc_html($message); ?></p></div>
             <?php
         }
 
@@ -93,7 +93,7 @@ if (!class_exists('hssCommonTools', false)) {
         <?php if (!empty($this->log['error'])): ?>
 
         <div class="error">
-                <p><?php echo implode('<br />', $this->log['error']); ?></p>
+                <p><?php echo esc_html(implode('<br />', $this->log['error'])); ?></p>
         </div>
 
         <?php endif; ?>
@@ -101,7 +101,7 @@ if (!class_exists('hssCommonTools', false)) {
         <?php if (!empty($this->log['notice'])): ?>
 
         <div class="updated fade">
-                <p><?php echo implode('<br />', $this->log['notice']); ?></p>
+                <p><?php echo esc_html(implode('<br />', $this->log['notice'])); ?></p>
         </div>
 
         <?php endif; ?>
@@ -109,7 +109,7 @@ if (!class_exists('hssCommonTools', false)) {
         <?php if (!empty($this->log['success'])): ?>
 
         <div class="updated fade">
-                <p><?php echo implode('<br />', $this->log['success']); ?></p>
+                <p><?php echo esc_html(implode('<br />', $this->log['success'])); ?></p>
         </div>
 
         <?php endif; ?>
@@ -129,7 +129,7 @@ if (!class_exists('hssCommonTools', false)) {
             <div class="wrap">
             <?php
             if ($header != ''){
-                echo '<h1>'.$header.'</h1>';
+                echo '<h1>'.esc_html($header).'</h1>';
             }
         }
 
@@ -309,7 +309,7 @@ if (!class_exists('hssCommonTools', false)) {
         function makeDropDown ($id, $name, $items, $selected = NULL, $class = NULL, $onchange = NULL, $compareDataValue = false) {
             
             ?>
-            <select id="<?php echo $id; ?>" name="<?php echo $name; ?>" <?php if (!is_null ($class)) { echo 'class="'.$class.'"';} ?> <?php if (!is_null ($onchange)) { echo 'onchange="'.$onchange.'"';} ?> >
+            <select id="<?php echo esc_html($id); ?>" name="<?php echo esc_html($name); ?>" <?php if (!is_null ($class)) { echo 'class="'.esc_html($class).'"';} ?> <?php if (!is_null ($onchange)) { echo 'onchange="'.esc_html($onchange).'"';} ?> >
             <?php
 
             foreach ($items as $item) {
@@ -321,18 +321,18 @@ if (!class_exists('hssCommonTools', false)) {
                 echo '        <option ';
 
                 if (array_key_exists('value', $item)){
-                    echo ' value="'.$item['value'].'"';
+                    echo ' value="'.esc_html($item['value']).'"';
                 }
                 if (array_key_exists('dataValue', $item)){
                     echo " data-value='".json_encode($item['dataValue'])."'";
                 }
                 if (array_key_exists('class', $item)){
-                    echo ' class="'.$item['class'].'"';
+                    echo ' class="'.esc_html($item['class']).'"';
                 }
                 if ($isSelected) {
                     echo ' selected="selected"';
                 }
-                echo ' >'.$item['name'].'</option>';
+                echo ' >'.esc_html($item['name']).'</option>';
             }
 
             ?>
