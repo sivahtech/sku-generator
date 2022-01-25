@@ -6,7 +6,7 @@
  function hassgetsubcatselectedcat()
  {
 	if(isset($_POST['catid'])){
-	 $categoryids=esc_html($_POST['catid']);
+	 $categoryids=$_POST['catid'];
 	 $args = array(
        'hide_empty' => 0,
        'parent' => $categoryids,
@@ -107,7 +107,7 @@
 
 	//delete_option('sku_already_added');
 	if(isset($_POST['settings'])){
-		update_option('hss_sku_gen_settings', stripslashes (esc_html($_POST['settings'])));
+		update_option('hss_sku_gen_settings', stripslashes ($_POST['settings']));
 	}
     
 

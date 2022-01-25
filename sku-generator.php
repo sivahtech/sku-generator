@@ -19,15 +19,15 @@ if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 //check for multisite and regular
 if ( ! is_plugin_active_for_network( 'woocommerce/woocommerce.php' ) && ! is_plugin_active( 'woocommerce/woocommerce.php' )) {
   // error_log('Woocommerce does not appear to be enabled');
-  function st_require_woocommerce_plugin(){?>
+  function sivah_require_woocommerce_plugin(){?>
       <div class="notice notice-error" >
           <p> Please Enable Woocommerce Plugin before using TODO Plugin Name</p>
       </div><?php
    @trigger_error(__('Please Enable Woocommerce Plugin before using TODO Plugin Name.', 'hss_sku_gen'), E_USER_ERROR);
   }
 
-  add_action('network_admin_notices','st_require_woocommerce_plugin');
-  register_activation_hook(__FILE__, 'st_require_woocommerce_plugin');
+  add_action('network_admin_notices','sivah_require_woocommerce_plugin');
+  register_activation_hook(__FILE__, 'sivah_require_woocommerce_plugin');
 } else {
   $wcActive = true;
 }
@@ -75,23 +75,23 @@ if (is_admin() && $wcActive) {
   }
   
 	add_action( 'save_post', 'update_sku_product', 50, 3 );
-	function update_sku_product( $post_id, $post, $update ) {
+	function update_sku_product( $posivah_id, $post, $update ) {
 		
-		if ( $post->post_type != 'product') return;
+		if ( $post->posivah_type != 'product') return;
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-			return $post_id; 
+			return $posivah_id; 
 
-		if ( $post->post_status != 'publish' )
-			return $post_id; 
+		if ( $post->posivah_status != 'publish' )
+			return $posivah_id; 
 
-		if ( ! current_user_can( 'edit_product', $post_id ) )
-			return $post_id;
+		if ( ! current_user_can( 'edit_product', $posivah_id ) )
+			return $posivah_id;
 		
 			$savedoption=get_option('hss_sku_gen_settings');
 			$savedoption=json_decode($savedoption);
 			
 			if($savedoption->useTaxonomy==1){
-				$terms = get_the_terms ( $post_id, 'product_cat' );
+				$terms = get_the_terms ( $posivah_id, 'product_cat' );
 				
 				foreach ( $terms as $term ) {
 					
@@ -159,7 +159,7 @@ if (is_admin() && $wcActive) {
 					
 					
 				}else{
-					update_post_meta( $post_id, '_sku', $codereturn );
+					update_posivah_meta( $posivah_id, '_sku', $codereturn );
 				}
 			}
 			 
@@ -170,15 +170,15 @@ if (is_admin() && $wcActive) {
 
 
   
-	add_action( 'admin_init', 'st_my_admin_button' );
-	function st_my_admin_button() {
+	add_action( 'admin_init', 'sivah_my_admin_button' );
+	function sivah_my_admin_button() {
 		add_meta_box( 'product_meta_box',
 			'Product Details',
-			'st_display_product_meta_box',
+			'sivah_display_product_meta_box',
 			'product', 'normal', 'high'
 		);
 	}
-	function st_display_product_meta_box( $movie_review ) {
+	function sivah_display_product_meta_box( $movie_review ) {
 		
 		?>
 		<table>
@@ -191,9 +191,9 @@ if (is_admin() && $wcActive) {
 		</table>
 		<?php
 	}
-	add_action( 'admin_footer', 'st_my_action_javascript' ); 
+	add_action( 'admin_footer', 'sivah_my_action_javascript' ); 
 
-	function st_my_action_javascript() { ?>
+	function sivah_my_action_javascript() { ?>
 		<script type="text/javascript" >
 		
 			function myfunctiongeneratesku(){
@@ -207,7 +207,7 @@ if (is_admin() && $wcActive) {
 				jQuery.ajax({
 					type: "post",
 					
-					url: "<?php echo site_url(); ?>/wp-admin/admin-ajax.php",
+					url: "<?php echo admin_url(); ?>/admin-ajax.php",
 					data: {
 						action: "automatically_generate_sku",
 						allcatids:allcatids
