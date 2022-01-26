@@ -262,7 +262,7 @@ if (!class_exists('hssCommonTools', false)) {
 
         // Method: POST, PUT, GET etc
         // Data: array("param" => "value") ==> index.php?param=value
-
+		/*
         function callAPI($method, $url, $data = false)
         {
             $curl = curl_init();
@@ -302,7 +302,7 @@ if (!class_exists('hssCommonTools', false)) {
 
             return $result;
         }
-
+		*/
         /****
         * Select creation
         ****/

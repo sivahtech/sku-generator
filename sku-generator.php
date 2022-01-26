@@ -1,10 +1,12 @@
 <?php
 /**
  * Plugin Name: SKU Generator
+ 
  * Description: This plugin generates SKU codes for products programatically.
  * Version: 1.0.0
  * Author: Sivahtech Team
  * Author URI: https://www.sivahtech.com/
+ 
  */
 
 if ( ! defined( 'ABSPATH' )) {
@@ -19,15 +21,15 @@ if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 //check for multisite and regular
 if ( ! is_plugin_active_for_network( 'woocommerce/woocommerce.php' ) && ! is_plugin_active( 'woocommerce/woocommerce.php' )) {
   // error_log('Woocommerce does not appear to be enabled');
-  function sivah_require_woocommerce_plugin(){?>
+  function SKU_GEN_require_woocommerce_plugin(){?>
       <div class="notice notice-error" >
           <p> Please Enable Woocommerce Plugin before using TODO Plugin Name</p>
       </div><?php
    @trigger_error(__('Please Enable Woocommerce Plugin before using TODO Plugin Name.', 'hss_sku_gen'), E_USER_ERROR);
   }
 
-  add_action('network_admin_notices','sivah_require_woocommerce_plugin');
-  register_activation_hook(__FILE__, 'sivah_require_woocommerce_plugin');
+  add_action('network_admin_notices','SKU_GEN_require_woocommerce_plugin');
+  register_activation_hook(__FILE__, 'SKU_GEN_require_woocommerce_plugin');
 } else {
   $wcActive = true;
 }
@@ -74,24 +76,24 @@ if (is_admin() && $wcActive) {
 
   }
   
-	add_action( 'save_post', 'update_sku_product', 50, 3 );
-	function update_sku_product( $posivah_id, $post, $update ) {
+	add_action( 'save_post', 'SKU_GEN_update_sku_product', 50, 3 );
+	function SKU_GEN_update_sku_product( $post_id, $post, $update ) {
 		
-		if ( $post->posivah_type != 'product') return;
+		if ( $post->post_type != 'product') return;
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-			return $posivah_id; 
+			return $post_id; 
 
-		if ( $post->posivah_status != 'publish' )
-			return $posivah_id; 
+		if ( $post->post_status != 'publish' )
+			return $post_id; 
 
-		if ( ! current_user_can( 'edit_product', $posivah_id ) )
-			return $posivah_id;
+		if ( ! current_user_can( 'edit_product', $post_id ) )
+			return $post_id;
 		
 			$savedoption=get_option('hss_sku_gen_settings');
 			$savedoption=json_decode($savedoption);
 			
 			if($savedoption->useTaxonomy==1){
-				$terms = get_the_terms ( $posivah_id, 'product_cat' );
+				$terms = get_the_terms ( $post_id, 'product_cat' );
 				
 				foreach ( $terms as $term ) {
 					
@@ -159,7 +161,7 @@ if (is_admin() && $wcActive) {
 					
 					
 				}else{
-					update_posivah_meta( $posivah_id, '_sku', $codereturn );
+					update_post_meta( $post_id, '_sku', $codereturn );
 				}
 			}
 			 
@@ -170,15 +172,15 @@ if (is_admin() && $wcActive) {
 
 
   
-	add_action( 'admin_init', 'sivah_my_admin_button' );
-	function sivah_my_admin_button() {
+	add_action( 'admin_init', 'SKU_GEN_my_admin_button' );
+	function SKU_GEN_my_admin_button() {
 		add_meta_box( 'product_meta_box',
 			'Product Details',
-			'sivah_display_product_meta_box',
+			'SKU_GEN_display_product_meta_box',
 			'product', 'normal', 'high'
 		);
 	}
-	function sivah_display_product_meta_box( $movie_review ) {
+	function SKU_GEN_display_product_meta_box( $movie_review ) {
 		
 		?>
 		<table>
@@ -191,9 +193,9 @@ if (is_admin() && $wcActive) {
 		</table>
 		<?php
 	}
-	add_action( 'admin_footer', 'sivah_my_action_javascript' ); 
+	add_action( 'admin_footer', 'SKU_GEN_my_action_javascript' ); 
 
-	function sivah_my_action_javascript() { ?>
+	function SKU_GEN_my_action_javascript() { ?>
 		<script type="text/javascript" >
 		
 			function myfunctiongeneratesku(){
@@ -207,7 +209,7 @@ if (is_admin() && $wcActive) {
 				jQuery.ajax({
 					type: "post",
 					
-					url: "<?php echo admin_url(); ?>/admin-ajax.php",
+					url: "<?php echo site_url(); ?>/wp-admin/admin-ajax.php",
 					data: {
 						action: "automatically_generate_sku",
 						allcatids:allcatids
@@ -232,7 +234,7 @@ if (is_admin() && $wcActive) {
 			$savedoption=get_option('hss_sku_gen_settings');
 			$savedoption=json_decode($savedoption);
 			
-			$postedcategory=sanitize_text_field($_POST['allcatids']);
+			$postedcategory=$_POST['allcatids'];
 			$allcategory=explode(",",$postedcategory);
 			if($savedoption->useTaxonomy==1){
 				if($savedoption->taxonomy !=''){
@@ -276,7 +278,7 @@ if (is_admin() && $wcActive) {
 			$notes = new hssSkuCalculator();
 			
 			$codereturn=$notes->getSKUwithPrefix_automatic($num,$precision,$nextSKUNum);
-			echo esc_html($codereturn=$prefix.$codereturn.$suffix);
+			echo $codereturn=$prefix.$codereturn.$suffix;
 			wp_die();
 		
 	}
