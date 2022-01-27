@@ -234,7 +234,7 @@ if (is_admin() && $wcActive) {
 			$savedoption=get_option('hss_sku_gen_settings');
 			$savedoption=json_decode($savedoption);
 			
-			$postedcategory=$_POST['allcatids'];
+			$postedcategory=sanitize_text_field($_POST['allcatids']);
 			$allcategory=explode(",",$postedcategory);
 			if($savedoption->useTaxonomy==1){
 				if($savedoption->taxonomy !=''){
