@@ -278,7 +278,8 @@ if (is_admin() && $wcActive) {
 			$notes = new hssSkuCalculator();
 			
 			$codereturn=$notes->getSKUwithPrefix_automatic($num,$precision,$nextSKUNum);
-			echo $codereturn=$prefix.$codereturn.$suffix;
+			$codereturn=$prefix.$codereturn.$suffix;
+			echo esc_html($codereturn);
 			wp_die();
 		
 	}
